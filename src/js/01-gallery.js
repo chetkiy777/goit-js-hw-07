@@ -1,23 +1,40 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
-
+const galleryList = document.querySelector('.gallery')
 
 const addGallery = (imgArray) => {
-    const galleryList = document.querySelector('.gallery__list')
-    
-    for (let i = 0; i < imgArray.length; i += 1) {
-       
-        let liElem = document.createElement('li')
-        liElem.classList.add('gallery__item')
-        liElem.innerHTML = `<img src="${imgArray[i].preview}">`
-        let spanElem = document.createElement('span')
-        spanElem.textContent = `${imgArray[i].description}`
-        liElem.appendChild(spanElem)
-        galleryList.appendChild(liElem)
-        console.log(liElem)
+    return imgArray.map(({ preview, description, original }) => {
+        return `
+        <div class="gallery__item">
+            <a class="gallery__link" href=${original}>
+                <img src=${preview} alt=${description} data-source=${original} class="gallery__image">
+            </a>
+        </div>`;
+    }).join('')
     }
-}
 
-console.log(galleryItems);
+let cardSet = addGallery(galleryItems)
+galleryList.insertAdjacentHTML('beforeend', cardSet )
 
-addGallery(galleryItems)
+
+galleryList.addEventListener('click', (e) => {
+    e.preventDefault()
+    const original = e.target.getAttribute('data-source')
+    
+    if (e.target.nodeName !== 'IMG') {
+        return;
+    }
+
+    const instance = basicLightbox.create(`
+	<img src=${original} height="600" with="800">
+`)
+
+    instance.show()
+
+    document.onkeydown = function(evt) {
+    evt = evt || window.event;
+    if (evt.keyCode == 27) {
+        instance.close()
+    }
+    };
+})
