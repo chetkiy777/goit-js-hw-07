@@ -18,7 +18,6 @@ const galleryList = document.querySelector('.gallery')
     galleryList.insertAdjacentHTML('afterbegin',cardSet )
     
 var lightbox = new SimpleLightbox('.gallery a', {
-    
     overlay: true,
     captionDelay: '250ms'
     /* options */

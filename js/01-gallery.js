@@ -31,10 +31,11 @@ galleryList.addEventListener('click', (e) => {
 
     instance.show()
 
-    document.onkeydown = function(evt) {
+    document.addEventListener('keydown', onEscClose )
+
+    function onEscClose (evt) {
     evt = evt || window.event;
     if (evt.keyCode == 27) {
         instance.close()
-    }
-    };
+    }};
 })
